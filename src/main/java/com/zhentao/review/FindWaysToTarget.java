@@ -7,6 +7,12 @@ public class FindWaysToTarget {
         int sum = 5;
         System.out.println(ways(a, sum));
     }
+    /**
+     *
+     * @param a an array with all positive #
+     * @param sum a positive #
+     * @return
+     */
     public static int ways(int a[], int sum) {
         int size = a.length;
         int[] dp = new int[sum + 1];
