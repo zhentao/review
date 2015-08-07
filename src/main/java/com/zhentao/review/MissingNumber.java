@@ -4,6 +4,12 @@ import java.util.Arrays;
 
 public class MissingNumber {
 
+    public void main(String[] args) {
+        int[] array = new int[] {1,2,3 };
+        MissingNumber missing = new MissingNumber();
+        missing.findMissing(array);
+        missing.findMissingBySort(array);
+    }
     /**
      * @param array an array of unique numbers that are in the range from 1 - 100, but one number is missing
      * @return the missing number
