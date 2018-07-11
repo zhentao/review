@@ -12,9 +12,12 @@ public class PowerSet {
         input.add("a");
         input.add("b");
         input.add("c");
-        input.add("d");
-        Set<Set<String>> set = myPowerSet2(input);
+        //input.add("d");
+        Set<Set<String>> set = myPowerSet(input);
         System.out.println(set.size());
+//        for (Set<String> child : set) {
+//            System.out.println(child);
+//        }
         System.out.println(5 & 3);
     }
 
@@ -22,12 +25,14 @@ public class PowerSet {
     public static <T> Set<Set<T>> myPowerSet(Set<T> originalSet) {
         Set<Set<T>> sets = new HashSet<Set<T>>();
         if (originalSet.isEmpty()) {
-            sets.add(new HashSet<T>());
+            sets.add(Collections.<T>emptySet());
             return sets;
         }
         Iterator<T> iter = originalSet.iterator();
+        System.out.println("original: " + originalSet);
         T head = iter.next();
-        iter.remove();
+        //iter.remove();//remove head
+        originalSet.remove(head);
 
         for (Set<T> set : myPowerSet(originalSet)) {
             Set<T> newSet = new HashSet<T>();

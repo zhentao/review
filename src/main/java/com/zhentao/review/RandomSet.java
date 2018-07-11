@@ -2,7 +2,6 @@ package com.zhentao.review;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -18,7 +17,7 @@ import java.util.Random;
  */
 public class RandomSet<T> {
     private final Map<T, Integer> map = new HashMap<T, Integer>();
-    private final List<T> list = new ArrayList<T>();
+    private final ArrayList<T> list = new ArrayList<T>();
     private final Random rand;
     public RandomSet(Random rand) {
         this.rand = rand;

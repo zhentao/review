@@ -2,7 +2,7 @@ package com.zhentao.review;
 
 public class RemoveDupsFromSortedArray {
     public static void main(String args[]) {
-        int a[] = {0, 10, 20, 30, 30, 40, 3000000};
+        int a[] = {0, 10, 20, 30, 30, 30, 3000000};
          //a =new int[]{1,1,2,2};
         int output = removeDuplicates(a);
         System.out.println(output);
