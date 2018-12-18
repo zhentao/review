@@ -3,7 +3,7 @@ package com.zhentao.review;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * This is the random set implementation which supports the following 3 operations in O(1) run time
@@ -18,9 +18,12 @@ import java.util.Random;
 public class RandomSet<T> {
     private final Map<T, Integer> map = new HashMap<T, Integer>();
     private final ArrayList<T> list = new ArrayList<T>();
-    private final Random rand;
-    public RandomSet(Random rand) {
-        this.rand = rand;
+
+    public static void main(String[] args) {
+        RandomSet<String> set = new RandomSet<>();
+        set.add("a");
+        set.remove("a");
+        System.out.print(set.map.size());
     }
     public void add(T t) {
         if (!map.containsKey(t)) {
@@ -37,7 +40,7 @@ public class RandomSet<T> {
         }
     }
 
-    private void replaceTargetByLast(T t) {
+    private void replaceTargetByLast(final T t) {
         int index = map.get(t);
         T last = list.get(list.size() - 1);
         list.set(index, last);
@@ -45,6 +48,6 @@ public class RandomSet<T> {
     }
 
     public T get() {
-        return list.isEmpty() ?  null : list.get(rand.nextInt(list.size()));
+        return list.isEmpty() ?  null : list.get(ThreadLocalRandom.current().nextInt(list.size()));
     }
 }

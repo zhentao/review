@@ -1,6 +1,6 @@
 package com.zhentao.review;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ShuffleArray {
     public static void main(String[] args) {
@@ -13,9 +13,8 @@ public class ShuffleArray {
     }
 
     public void shuffle(int[] array) {
-        Random rand = new Random();
         for (int i = array.length; i > 0; i--) {
-            int index = rand.nextInt(i);
+            int index = ThreadLocalRandom.current().nextInt(i);
             swap(array, i-1, index);
         }
     }

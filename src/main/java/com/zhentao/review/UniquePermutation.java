@@ -35,7 +35,7 @@ public class UniquePermutation {
             int [] a = new int[num.length -1];
             System.arraycopy(num, 0, a, 0, i);
             System.arraycopy(num, i+1, a, i, num.length - i -1);
-            permute(n, a, idx+1, list); //recursive invokation, for next elements
+            permute(n, a, idx+1, list); //recursive invocation, for next elements
         }
     }
 }

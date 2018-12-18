@@ -2,7 +2,7 @@ package com.zhentao.review;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class SelectRandom {
     public static void main(String[] args) {
@@ -22,11 +22,10 @@ public class SelectRandom {
         }
     }
     public static char select(char[] input) {
-        Random rand = new Random();
         char picked = input[0];
         int count = 1;
         for (char c : input) {
-            if (rand.nextInt(count) == count - 1) {
+            if (ThreadLocalRandom.current().nextInt(count) == count - 1) {
                 picked = c;
             }
             count++;

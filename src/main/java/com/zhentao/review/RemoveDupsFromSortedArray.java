@@ -6,8 +6,14 @@ public class RemoveDupsFromSortedArray {
          //a =new int[]{1,1,2,2};
         int output = removeDuplicates(a);
         System.out.println(output);
+        System.out.println(a);
     }
 
+    /**
+     *
+     * @param A
+     * @return the final array size
+     */
     public static int removeDuplicates(int[] A) {
         int j = 0;
         if (A.length == 0)

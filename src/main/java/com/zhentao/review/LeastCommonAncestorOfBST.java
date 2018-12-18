@@ -66,20 +66,23 @@ public class LeastCommonAncestorOfBST {
 
     public static <T extends Comparable<T>> void inOrder(BinaryNode<T> root) {
         if (root == null) return;
-        System.out.print(root.item + " ");
+
         inOrder(root.left);
+        System.out.print(root.item + " ");
         inOrder(root.right);
     }
 
     public static <T extends Comparable<T>> void preOrder(BinaryNode<T> root) {
         if (root == null) return;
-        preOrder(root.left);
+
         System.out.print(root.item + " ");
+        preOrder(root.left);
         preOrder(root.right);
     }
 
     public static <T extends Comparable<T>> void postOrder(BinaryNode<T> root) {
         if (root == null) return;
+
         postOrder(root.left);
         postOrder(root.right);
         System.out.print(root.item + " ");

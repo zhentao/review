@@ -13,17 +13,22 @@ public class PowerSet {
         input.add("b");
         input.add("c");
         //input.add("d");
-        Set<Set<String>> set = myPowerSet(input);
+        Set<Set<String>> set = myCorrectPowerSet(input);
         System.out.println(set.size());
+        System.out.println(set);
+
+        input.add("a");
+        input.add("b");
+        input.add("c");
+        System.out.println(myPowerSet(input));
 //        for (Set<String> child : set) {
 //            System.out.println(child);
 //        }
-        System.out.println(5 & 3);
     }
 
 
     public static <T> Set<Set<T>> myPowerSet(Set<T> originalSet) {
-        Set<Set<T>> sets = new HashSet<Set<T>>();
+        Set<Set<T>> sets = new HashSet<Set<T>>();// this set recreated every time, not sure how it works
         if (originalSet.isEmpty()) {
             sets.add(Collections.<T>emptySet());
             return sets;
@@ -43,6 +48,31 @@ public class PowerSet {
         }
         return sets;
     }
+
+    public static <T> Set<Set<T>> myCorrectPowerSet(Set<T> originalSet) {
+        return myPowerSet(originalSet, new HashSet<Set<T>>());
+    }
+    private static <T> Set<Set<T>> myPowerSet(Set<T> originalSet, Set<Set<T>> sets) {
+        if (originalSet.isEmpty()) {
+            sets.add(Collections.<T>emptySet());
+            return sets;
+        }
+        Iterator<T> iter = originalSet.iterator();
+        System.out.println("original: " + originalSet);
+        T head = iter.next();
+        //iter.remove();//remove head
+        originalSet.remove(head);
+
+        for (Set<T> set : myPowerSet(originalSet)) {
+            Set<T> newSet = new HashSet<T>();
+            newSet.add(head);
+            newSet.addAll(set);
+            sets.add(newSet);
+            sets.add(set);
+        }
+        return sets;
+    }
+
 
     public static <T> Set<Set<T>> myPowerSet2(Set<T> originalSet) {
         @SuppressWarnings("unchecked")

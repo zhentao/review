@@ -23,7 +23,7 @@
           <target>1.8</target>
         </configuration>
       </plugin>
-      <plugin>
+     <!--  <plugin>
         <groupId>net.alchim31.maven</groupId>
         <artifactId>scala-maven-plugin</artifactId>
         <version>3.4.1</version>
@@ -44,7 +44,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
+      </plugin> -->
     </plugins>
   </build>
 </project>

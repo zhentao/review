@@ -27,7 +27,6 @@ public class Duplicate {
             }
         }
         System.out.println(builder.toString());
-        input.hashCode();
     }
 
     /**
