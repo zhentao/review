@@ -1,6 +1,9 @@
 package com.zhentao.review;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +32,7 @@ public class BinarySearchTest {
         int target = 6;
         int expected = -1;
         assertEquals(expected, binarySearch.findNoRecursive(input, target));
+        assertThat(expected, is(binarySearch.findNoRecursive(input, target)));
     }
 
     @Test
