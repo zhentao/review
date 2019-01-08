@@ -19,7 +19,7 @@ public class MultiSearch {
         String str = "bibs";
         Trie trie = new Trie(str);
         // String[] smalls = {"bi", "ibs", "bb"};
-        ArrayList<Integer> search = new ArrayList<>(trie.search("b"));
+        ArrayList<Integer> search = new ArrayList<>(trie.search("s"));
         adjustLocations(search, 1);
         System.out.println(search);
         System.out.println(trie.search("b"));

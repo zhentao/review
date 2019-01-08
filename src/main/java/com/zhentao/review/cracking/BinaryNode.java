@@ -1,6 +1,8 @@
 package com.zhentao.review.cracking;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -111,7 +113,8 @@ public class BinaryNode<T> {
 
 	public static void main(String[] args) {
 
-		BinaryNode<Integer> n1 = new BinaryNode<Integer>(1, null, null);
+	    BinaryNode<Integer> n0 = new BinaryNode<Integer>(0, null, null);
+		BinaryNode<Integer> n1 = new BinaryNode<Integer>(1, n0, null);
 		BinaryNode<Integer> n3 = new BinaryNode<Integer>(3, null, null);
 		BinaryNode<Integer> n2 = new BinaryNode<Integer>(2, n1, n3);
 		BinaryNode<Integer> n6 = new BinaryNode<Integer>(6, null, null);
@@ -122,6 +125,33 @@ public class BinaryNode<T> {
 //		n4.inOrderRecursive();
 //		n4.breathFirst();
 		System.out.println(n4.height());
+		System.out.println(n4.leaves());
+		n2 = new BinaryNode<Integer>(2, n1, null);
+		n3 = new BinaryNode<Integer>(3, n2, null);
+		n4 = new BinaryNode<Integer>(4, n3, null);
+		System.out.println(n4.leaves());
 		
+	}
+	
+	/**
+	 * return all leaves in order from left to right
+	 * @return
+	 */
+	public List<BinaryNode<T>> leaves() {
+	    List<BinaryNode<T>> list = new ArrayList<>();
+	    leaves(list);
+	    return list;
+	}
+	
+	private void leaves(List<BinaryNode<T>> list) {
+	    if (this.left != null) {
+	        left.leaves(list);
+	    }
+	    if (this.right != null) {
+	        right.leaves(list);
+	    }
+	    if (this.left == null && this.right == null) {
+	        list.add(this);
+	    }
 	}
 }
