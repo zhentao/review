@@ -66,93 +66,90 @@ text = "a|"
  * 
  * </pre>
  * 
- * @author 
+ * @author
  *
  */
 public class TextEditor {
-    private static final char EMPTY_CHAR = '\0';
     private StringBuilder text;
     // store undo actions.
-    private Stack<Action> undo;
+    private Stack<Action> undoAction;
     private int cursorIndex;
 
     public TextEditor() {
         this.text = new StringBuilder();
-        undo = new Stack<>();
+        undoAction = new Stack<>();
         cursorIndex = 0;
     }
 
     public boolean moveCursorLeft() {
-        return moveCursorLeft(true);
+        return moveCursorLeft(Undo.SAVE);
     }
 
-    private boolean moveCursorLeft(boolean saveForUndo) {
+    private boolean moveCursorLeft(Undo undo) {
         if (cursorIndex == 0) {
             return false;
         }
+
         cursorIndex--;
-        if (saveForUndo) {
-            undo.add(new Action(Operation.MOVE_CURSOR_RIGHT, EMPTY_CHAR));
-        }
+        undo.add(new Action(Operation.MOVE_CURSOR_RIGHT), this);
         return true;
     }
 
     public boolean moveCursorRight() {
-        return moveCursorRight(true);
+        return moveCursorRight(Undo.SAVE);
     }
 
-    private boolean moveCursorRight(boolean saveForUndo) {
+    private boolean moveCursorRight(Undo undo) {
         if (cursorIndex == text.length()) {
             return false;
         }
+        
         cursorIndex++;
-        if (saveForUndo) {
-            undo.add(new Action(Operation.MOVE_CURSOR_LEFT, EMPTY_CHAR));
-        }
+        undo.add(new Action(Operation.MOVE_CURSOR_LEFT), this);
         return true;
     }
 
     public boolean insertCharacter(char ch) {
-        return insertCharacter(ch, true);
+        return insertCharacter(ch, Undo.SAVE);
     }
 
-    private boolean insertCharacter(char ch, boolean saveForUndo) {
+    private boolean insertCharacter(char ch, Undo undo) {
         text.insert(cursorIndex, ch);
         cursorIndex++;
-        if (saveForUndo) {
-            undo.add(new Action(Operation.BACKSPACE, EMPTY_CHAR));
-        }
+        undo.add(new Action(Operation.BACKSPACE), this);
         return true;
     }
 
     public boolean backspace() {
-        return backspace(true);
+        return backspace(Undo.SAVE);
     }
 
-    private boolean backspace(boolean saveForUndo) {
+    private boolean backspace(Undo undo) {
         if (cursorIndex == 0) {
             return false;
         }
 
         cursorIndex--;
-
-        if (saveForUndo) {
-            char ch = text.charAt(cursorIndex);
-            undo.add(new Action(Operation.INSERT_CHARACTER, ch));
-        }
+        char ch = text.charAt(cursorIndex);
+        undo.add(new Action(Operation.INSERT_CHARACTER, ch), this);
         text.deleteCharAt(cursorIndex);
         return true;
     }
 
     public boolean undo() {
-        if (!undo.empty()) {
-            Action action = undo.pop();
-            return action.operation.apply(action.ch, this);
+        if (!undoAction.empty()) {
+            Action action = undoAction.pop();
+            return action.act(this);
         }
         return false;
     }
 
-    public int cursor() {
+    private void saveForUndo(Action action) {
+        undoAction.add(action);
+    }
+    
+    //for unit test/debug 
+    int cursor() {
         return cursorIndex;
     }
 
@@ -162,15 +159,16 @@ public class TextEditor {
     }
 
     enum Undo {
-        SAVE(true), UNSAVE(false);
-        private boolean saveForUndo;
+        SAVE {
+            @Override
+            public void add(Action action, TextEditor textEditor) {
+                textEditor.saveForUndo(action);
+            }
+        },
+        UNSAVE;
 
-        private Undo(boolean saveForUndo) {
-            this.saveForUndo = saveForUndo;
-        }
-
-        public boolean saveForUndo() {
-            return saveForUndo;
+        public void add(Action action, TextEditor textEditor) {
+            // do nothing
         }
     }
 
@@ -178,25 +176,25 @@ public class TextEditor {
         MOVE_CURSOR_LEFT {
             @Override
             public boolean apply(char ch, TextEditor editor) {
-                return editor.moveCursorLeft(false);
+                return editor.moveCursorLeft(Undo.UNSAVE);
             }
         },
         MOVE_CURSOR_RIGHT {
             @Override
             public boolean apply(char ch, TextEditor editor) {
-                return editor.moveCursorRight(false);
+                return editor.moveCursorRight(Undo.UNSAVE);
             }
         },
         INSERT_CHARACTER {
             @Override
             public boolean apply(char ch, TextEditor editor) {
-                return editor.insertCharacter(ch, false);
+                return editor.insertCharacter(ch, Undo.UNSAVE);
             }
         },
         BACKSPACE {
             @Override
             public boolean apply(char ch, TextEditor editor) {
-                return editor.backspace(false);
+                return editor.backspace(Undo.UNSAVE);
             }
         };
 
@@ -208,13 +206,21 @@ public class TextEditor {
      *
      */
     private static class Action {
-        final Operation operation;
-        final char ch;
+        private static final char EMPTY_CHAR = '\0';
+        private final Operation operation;
+        private final char ch;
 
+        public Action(Operation operation) {
+            this.operation = operation;
+            this.ch = EMPTY_CHAR;
+        }
         public Action(Operation operation, char ch) {
-            super();
             this.operation = operation;
             this.ch = ch;
+        }
+
+        public boolean act(TextEditor editor) {
+            return operation.apply(ch, editor);
         }
 
         @Override
