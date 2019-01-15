@@ -1,7 +1,9 @@
 package com.zhentao.review.google;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -40,29 +42,8 @@ Note:
  *
  */
 public class MostStonesRemoved {
-    public static void main(String[] args) {
-        int[][] array = { { 4, 5 }, { 0, 4 }, { 0, 5 }, { 4, 3 }, { 2, 2 }, { 5, 1 }, { 0, 3 }, { 2, 4 }, { 4, 0 } };
-        System.out.println(removeStones(array));
 
-        array = new int[][] { { 2, 1 }, { 0, 1 }, { 0, 0 }, { 2, 2 }, { 1, 0 }, { 1, 2 } };
-        System.out.println(removeStones(array));
-
-        array = new int[][] { { 0, 0 }, { 0, 2 }, { 1, 1 }, { 2, 0 }, { 2, 2 } };
-        System.out.println(removeStones(array));
-
-        array = new int[][] { { 0, 0 } };
-        System.out.println(removeStones(array));
-
-        array = new int[][] { { 0, 1 }, { 1, 0 }, { 1, 1 } };
-        System.out.println(removeStones(array));
-    }
-
-    /**
-     * 
-     * @param stones
-     * @return
-     */
-    public static int removeStones(int[][] stones) {
+    public int removeStones(int[][] stones) {
 
         HashSet<Component> componentSet = new HashSet<>();
 
@@ -121,6 +102,86 @@ public class MostStonesRemoved {
             }
         }
     }
+
+    /**
+     * DSU
+     * 
+     * @param stones
+     * @return
+     */
+    public int removeStones3(int[][] stones) {
+        DSU dsu = new DSU(20000);
+
+        for (int[] stone : stones)
+            dsu.union(stone[0], stone[1] + 10000);
+
+        Set<Integer> uniqueParents = new HashSet<>();
+        for (int[] stone : stones)
+            uniqueParents.add(dsu.find(stone[0]));
+
+        return stones.length - uniqueParents.size();
+    }
+
+    private static class DSU {
+        int[] parent;
+
+        public DSU(int N) {
+            parent = new int[N];
+            for (int i = 0; i < N; ++i) {
+                parent[i] = i;
+            }
+
+        }
+
+        public int find(int x) {
+            if (parent[x] != x) {
+                parent[x] = find(parent[x]);
+            }
+            return parent[x];
+        }
+
+        public void union(int x, int y) {
+            parent[find(x)] = find(y);
+        }
+    }
+
+    /**
+     * union find with Map
+     * 
+     * @param stones
+     * @return
+     */
+    public int removeStones4(int[][] stones) {
+        HashMap<int[], int[]> parents = new HashMap<>();
+        for (int[] stone : stones) {
+            parents.put(stone, stone);
+        }
+
+        for (int i = 0; i < stones.length - 1; i++) {
+            for (int j = i + 1; j < stones.length; j++) {
+                if (stones[i][0] == stones[j][0] || stones[i][1] == stones[j][1]) {
+                    union(stones[i], stones[j], parents);
+                }
+            }
+        }
+
+        HashSet<int[]> uniqueParents = new HashSet<>();
+        for (int[] stone : stones) {
+            int[] p = find(stone, parents);
+            uniqueParents.add(p);
+        }
+        return stones.length - uniqueParents.size();
+    }
+
+    private int[] find(int[] stone, Map<int[], int[]> parents) {
+        int[] p = parents.get(stone);
+        return p.equals(stone) ? p : find(p, parents);
+    }
+
+    private void union(int[] x, int[] y, Map<int[], int[]> parents) {
+        parents.put(find(x, parents), find(y, parents));
+    }
+
 }
 
 class Component {

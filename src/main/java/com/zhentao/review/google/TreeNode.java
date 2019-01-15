@@ -18,6 +18,17 @@ public class TreeNode {
         return "val: " + val;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof TreeNode)) {
+            return false;
+        }
+        TreeNode that = (TreeNode) other;
+        return this.val == that.val;
+    }
     public static List<TreeNode> preorderWithStack(TreeNode root) {
         ArrayList<TreeNode> list = new ArrayList<>();
 
@@ -37,10 +48,23 @@ public class TreeNode {
                 if (left != null) {
                     stack.add(left);
                 }
-
             }
         }
-
         return list;
+    }
+    
+    public static List<Integer> inorder(TreeNode root) {
+        ArrayList<Integer> list = new ArrayList<>();
+        inorder(root, list);
+        return list;
+    }
+    private static void inorder(TreeNode node, List<Integer> list) {
+        if (node == null) {
+            return;
+        }
+        inorder(node.left, list);
+        list.add(node.val);
+        inorder(node.right, list);
+        
     }
 }
