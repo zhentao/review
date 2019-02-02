@@ -32,6 +32,7 @@ Output: 5
 
 Explanation: As one shortest transformation is "hit" -> "hot" -> "dot" -> "dog" -> "cog",
                                                "hit" -> "hot" -> "dot" -> "lot" -> "log" -> "cog"
+                                               "hit" -> "hot" -> "lot" -> "log" -> "cog"
 return its length 5.
 Example 2:
 
@@ -49,38 +50,38 @@ Explanation: The endWord "cog" is not in wordList, therefore no possible transfo
  *
  */
 public class WordLadder {
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         int temp = 1;
         System.out.println(temp-- >=1);
-        String beginWord = "hit";
-        String endWord = "cog";
-        List<String> wordList = Arrays.asList("hot", "dot", "dog", "lot", "log", "cog");
+        final String beginWord = "hit";
+        final String endWord = "cog";
+        final List<String> wordList = Arrays.asList("hot", "dot", "dog", "lot", "log", "cog");
 
-        int count = new WordLadder().ladderLength(beginWord, endWord, wordList);
+        final int count = new WordLadder().ladderLength(beginWord, endWord, wordList);
         System.out.println(count);
     }
 
-    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        HashSet<String> dictionary = new HashSet<>(wordList);
+    public int ladderLength(final String beginWord, final String endWord, final List<String> wordList) {
+        final HashSet<String> dictionary = new HashSet<>(wordList);
         if (!dictionary.contains(endWord)) {
             return 0;
         }
-        HashSet<String> visited = new HashSet<>();
-        Queue<String> queue = new LinkedList<>();
+        final HashSet<String> visited = new HashSet<>();
+        final Queue<String> queue = new LinkedList<>();
         queue.add(beginWord);
         visited.add(beginWord);
         int level = 1;
 
         while (!queue.isEmpty()) {
             int queueSize = queue.size();
-            while (queueSize-- > 0) {
-                String str = queue.poll();
-                int length = str.length();
+            while (queueSize-- > 0) {//only process elements for this level
+                final String str = queue.poll();
+                final int length = str.length();
                 for (int i = 0; i < length; i++) {
-                    char[] array = str.toCharArray();
+                    final char[] array = str.toCharArray();
                     for (char ch = 'a'; ch <= 'z'; ch++) {
                         array[i] = ch;
-                        String word = new String(array);
+                        final String word = new String(array);
                         if (word.equals(endWord)) {
                             return ++level;
                         }

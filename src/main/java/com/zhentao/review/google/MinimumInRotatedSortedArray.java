@@ -1,4 +1,4 @@
-package com.zhentao.review.google.todo;
+package com.zhentao.review.google;
 
 /**
  * <b>153. Find Minimum in Rotated Sorted </b>
@@ -16,6 +16,7 @@ Example 1:
 
 Input: [3,4,5,1,2] 
 Output: 1
+
 Example 2:
 
 Input: [4,5,6,7,0,1,2]
@@ -27,6 +28,18 @@ Output: 0
  */
 public class MinimumInRotatedSortedArray {
     public int findMin(int[] nums) {
-        return 0;
+        return findMin(nums, 0, nums.length - 1);
+    }
+
+    private int findMin(int[] nums, int start, int end) {
+        if (start == end) {
+            return nums[start];
+        }
+        int mid = start + (end - start) / 2;
+        if (nums[mid] > nums[end]) {
+            return findMin(nums, mid + 1, end);
+        } else {
+            return findMin(nums, start, mid);
+        }
     }
 }

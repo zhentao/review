@@ -1,11 +1,9 @@
 package com.zhentao.review.cracking;
 
-import com.zhentao.review.cracking.Node;
-
 public class Node<T> {
 	public Node<T> next;
 	public T value;
-	public Node(T value) {
+	public Node(final T value) {
 		this.value = value;
 	}
 	public void print() {
@@ -14,7 +12,7 @@ public class Node<T> {
 	
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder(value.toString());
+		final StringBuilder builder = new StringBuilder(value.toString());
 		Node<T> temp = next;
 		while(temp != null) {
 			builder.append("->" + temp.value);
@@ -27,7 +25,7 @@ public class Node<T> {
 		Node<T> prev = null;
 		Node<T> current = this;
 		while (current != null) {
-			Node<T> temp = current.next;
+			final Node<T> temp = current.next;
 			current.next = prev;
 			prev = current;
 			current = temp;

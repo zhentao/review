@@ -5,6 +5,8 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.zhentao.review.google.high.RedundantConnection;
 public class RedundantConnectionTest {
     RedundantConnection redundant;
     

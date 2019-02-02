@@ -1,4 +1,4 @@
-package com.zhentao.review.leetcode;
+package com.zhentao.review.google.high;
 
 /**
  * <b>684. Redundant Connection</b>
@@ -38,23 +38,23 @@ Every integer represented in the 2D-array will be between 1 and N, where N is th
 public class RedundantConnection {
     int MAX_EDGE_VAL = 1000;
 
-    public int[] findRedundantConnection(int[][] edges) {
-        DSU dsu = new DSU(MAX_EDGE_VAL + 1);
-        for (int[] edge : edges) {
+    public int[] findRedundantConnection(final int[][] edges) {
+        final DSU dsu = new DSU(MAX_EDGE_VAL + 1);
+        for (final int[] edge : edges) {
             if (!dsu.union(edge[0], edge[1]))
                 return edge;
         }
         throw new AssertionError();
     }
 
-    public int[] findRedundantConnection2(int[][] edges) {
-        int[] parent = new int[2001];
+    public int[] findRedundantConnection2(final int[][] edges) {
+        final int[] parent = new int[2001];
         for (int i = 0; i < parent.length; i++)
             parent[i] = i;
 
-        for (int[] edge : edges) {
-            int f = edge[0];
-            int t = edge[1];
+        for (final int[] edge : edges) {
+            final int f = edge[0];
+            final int t = edge[1];
             if (find(parent, f) == find(parent, t)) {
                 return edge;
             }
@@ -66,9 +66,9 @@ public class RedundantConnection {
         return new int[2];
     }
 
-    private int find(int[] parent, int f) {
+    private int find(final int[] parent, final int f) {
         if (f != parent[f]) {
-            parent[f] = find(parent, parent[f]);
+            parent[f] = find(parent, parent[f]); //path compress 
         }
         return parent[f];
     }
@@ -78,7 +78,7 @@ class DSU {
     int[] parent;
     int[] rank;
 
-    public DSU(int size) {
+    public DSU(final int size) {
         parent = new int[size];
         for (int i = 0; i < size; i++) {
             parent[i] = i;
@@ -86,16 +86,16 @@ class DSU {
         rank = new int[size];
     }
 
-    public int find(int x) {
+    public int find(final int x) {
         if (parent[x] != x) {
             parent[x] = find(parent[x]);
         }
         return parent[x];
     }
 
-    public boolean union(int x, int y) {
-        int xr = find(x);
-        int yr = find(y);
+    public boolean union(final int x, final int y) {
+        final int xr = find(x);
+        final int yr = find(y);
         if (xr == yr) {
             return false;
         } else if (rank[xr] < rank[yr]) {

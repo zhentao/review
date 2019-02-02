@@ -40,7 +40,7 @@ All characters in given inputs are lowercase letters.
  *
  */
 public class FindAndReplaceInString {
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         System.out.println(findReplaceString("abcd", new int[] { 2, 0 }, new String[] { "cd", "a" },
                 new String[] { "ffff", "eee" }));
 
@@ -57,19 +57,22 @@ public class FindAndReplaceInString {
 
     }
 
-    public static String findReplaceString(String S, int[] indexes, String[] sources, String[] targets) {
-        HashMap<Integer, Integer> map = new HashMap<>();
+    public static String findReplaceString(final String S, final int[] indexes, final String[] sources, final String[] targets) {
+        final HashMap<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < indexes.length; i++) {
             map.put(indexes[i], i);
         }
         Arrays.sort(indexes);
 
-        StringBuilder builder = new StringBuilder(S);
-        for (int i = indexes.length - 1; i >= 0; i--) {// for (int i = S.length() - 1; i >= 0; i--) then check if
-                                                       // map.contains(i), so no need to sort.
-            int start = indexes[i];
-            int originalIndex = map.get(start);
-            int end = indexes[i] + sources[originalIndex].length();
+        final StringBuilder builder = new StringBuilder(S);
+        // for (int i = S.length() - 1; i >= 0; i--) then check if
+        // map.contains(i), so no need to sort. Put all indexes from 0 to S.length into a map
+        //if there is a limit on length like 1000, considering put everything in a data structure
+        for (int i = indexes.length - 1; i >= 0; i--) {
+                    
+            final int start = indexes[i];
+            final int originalIndex = map.get(start);
+            final int end = indexes[i] + sources[originalIndex].length();
             if (builder.substring(start, end).equals(sources[originalIndex])) {
                 builder.replace(start, end, targets[originalIndex]);
             }

@@ -1,4 +1,4 @@
-package com.zhentao.review.google;
+package com.zhentao.review.google.high;
 
 /**
  * <b>750. Number Of Corner Rectangles</b>

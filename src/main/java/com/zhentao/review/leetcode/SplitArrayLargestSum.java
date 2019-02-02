@@ -1,12 +1,10 @@
-package com.zhentao.review.google.todo;
+package com.zhentao.review.leetcode;
 
 /**
- * <b>410. Split Array Largest Sum</b> hard
+ * <b>410. Split Array Largest Sum</b>
  * 
  * <pre>
- * Given an array which consists of non-negative integers and an integer m, you can split 
- * the array into m non-empty continuous subarrays. Write an algorithm to minimize the largest 
- * sum among these m subarrays.
+ * Given an array which consists of non-negative integers and an integer m, you can split the array into m non-empty continuous subarrays. Write an algorithm to minimize the largest sum among these m subarrays.
 
 Note:
 If n is the length of array, assume the following constraints are satisfied:
@@ -32,5 +30,7 @@ where the largest sum among the two subarrays is only 18.
  *
  */
 public class SplitArrayLargestSum {
-
+    public int splitArray(final int[] nums, final int m) {
+        return 0;
+    }
 }

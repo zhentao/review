@@ -1,7 +1,7 @@
 package com.zhentao.review.dp;
 
 public class EditDistance {
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         String str1 = "geek", str2 = "gesek";
         System.out.println(calculateTopDown(str1, str2));
         System.out.println(calculateBottomUp(str1, str2));
@@ -23,11 +23,11 @@ public class EditDistance {
         System.out.println(calculateBottomUp("a", "bc"));
     }
 
-    public static int calculateTopDown(String str1, String str2) {
+    public static int calculateTopDown(final String str1, final String str2) {
 
-        int m = str1.length();
-        int n = str2.length();
-        int[][] memo = new int[m][n];
+        final int m = str1.length();
+        final int n = str2.length();
+        final int[][] memo = new int[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 memo[i][j] = -1;
@@ -36,7 +36,7 @@ public class EditDistance {
         return calculateTopDown(str1, m - 1, str2, n - 1, memo);
     }
 
-    private static int calculateTopDown(String str1, int m, String str2, int n, int[][] memo) {
+    private static int calculateTopDown(final String str1, final int m, final String str2, final int n, final int[][] memo) {
  
         if (m < 0)
             return n + 1;
@@ -50,17 +50,20 @@ public class EditDistance {
             memo[m][n] = calculateTopDown(str1, m - 1, str2, n - 1, memo);
             return memo[m][n];
         }
-        int delete = calculateTopDown(str1, m - 1, str2, n, memo);
-        int insert = calculateTopDown(str1, m, str2, n - 1, memo);
-        int replace = calculateTopDown(str1, m - 1, str2, n - 1, memo);
+        final int delete = calculateTopDown(str1, m - 1, str2, n, memo);
+        final int insert = calculateTopDown(str1, m, str2, n - 1, memo);
+        final int replace = calculateTopDown(str1, m - 1, str2, n - 1, memo);
         memo[m][n] = 1 + min(delete, insert, replace);
         return memo[m][n];
     }
 
-    public static int calculateBottomUp(String str1, String str2) {
-        int m = str1.length();
-        int n = str2.length();
-        int[][] dp = new int[m + 1][n + 1];
+    
+    
+    
+    public static int calculateBottomUp(final String str1, final String str2) {
+        final int m = str1.length();
+        final int n = str2.length();
+        final int[][] dp = new int[m + 1][n + 1];
         for (int i = 0; i <= m; i++) {
             dp[i][0] = i;
         }
@@ -72,9 +75,9 @@ public class EditDistance {
                 if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
                     dp[i][j] = dp[i - 1][j - 1];
                 } else {
-                    int delete = dp[i - 1][j];
-                    int insert = dp[i][j - 1];
-                    int replace = dp[i - 1][j - 1];
+                    final int delete = dp[i - 1][j];
+                    final int insert = dp[i][j - 1];
+                    final int replace = dp[i - 1][j - 1];
                     dp[i][j] = 1 + min(delete, replace, insert);
                 }
             }
@@ -82,7 +85,7 @@ public class EditDistance {
         return dp[m][n];
     }
 
-    private static int min(int a, int b, int c) {
+    private static int min(final int a, final int b, final int c) {
         if (a >= b) {
             return Math.min(b, c);
         } else {

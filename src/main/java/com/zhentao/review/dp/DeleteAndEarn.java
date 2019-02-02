@@ -34,30 +34,10 @@ Each element nums[i] is an integer in the range [1, 10000].
  *
  */
 
-/**
- * 1- System Design，design chat system，聊了很久的message怎么存，DB table怎么
- * 设计，以及聊了一些的socket，面试官问一台server可以连接多少socket connection
- * ，竟然可以有上million，我以为只能65535这个order的
- * 
- * 2- 一个很长的数组，random的，求[s, e]之间的最大值的index，可以任何形式的预处 理，最终是用segment
- * tree做的，没准备到这个，提示之后才想到segment tree
- * 
- * 3- 两个字符串只有一个不同，找出那个，要求O(1) space, 逐个相加求差或者逐个XOR 就可以了 24点游戏，基本上是next
- * permutation和add operator的结合
- * 
- * 4- 汇率的那个题，给出很多汇率的比，LC399的变形，这题没刷到，写了个DFS，看来 给过了
- * 
- * 5- LC549 和 binary tree里找出和某node距离为k的所有node
- * 
- * 总结就是 Google这么喜欢出DFS/BFS类的search的题目。。。
- * 
- * @author zhentao.li
- *
- */
 public class DeleteAndEarn {
-	public static int earn(int[] nums) {
-		int[] memo = new int[10001];
-		int length = nums.length;
+	public static int earn(final int[] nums) {
+		final int[] memo = new int[10001];
+		final int length = nums.length;
 		for (int i = 0; i < length; i++) {
 			memo[nums[i]]++;
 		}
@@ -65,7 +45,7 @@ public class DeleteAndEarn {
 
 		for (int k = 0; k <= 10000; ++k) {
 			if (memo[k] > 0) {
-				int m = Math.max(avoid, using);
+				final int m = Math.max(avoid, using);
 				if (k - 1 != prev) {
 					using = k * memo[k] + m;
 					avoid = m;

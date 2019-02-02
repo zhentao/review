@@ -69,13 +69,13 @@ There exists some node in the given binary tree for which node.val == k.
  *
  */
 public class ClosestLeafBinaryTree {
-    public static void main(String[] args) {
-        TreeNode n1 = new TreeNode(1);
-        TreeNode n2 = new TreeNode(2);
-        TreeNode n3 = new TreeNode(3);
-        TreeNode n4 = new TreeNode(4);
-        TreeNode n5 = new TreeNode(5);
-        TreeNode n6 = new TreeNode(6);
+    public static void main(final String[] args) {
+        final TreeNode n1 = new TreeNode(1);
+        final TreeNode n2 = new TreeNode(2);
+        final TreeNode n3 = new TreeNode(3);
+        final TreeNode n4 = new TreeNode(4);
+        final TreeNode n5 = new TreeNode(5);
+        final TreeNode n6 = new TreeNode(6);
         
         n1.left = n2;
         n1.right = n3;
@@ -90,26 +90,33 @@ public class ClosestLeafBinaryTree {
         System.out.println(new ClosestLeafBinaryTree().findClosestLeaf(n1, 1));
     }
     
-    public int findClosestLeaf(TreeNode root, int k) {
-        HashMap<TreeNode, TreeNode> parentMap = new HashMap<>();
-        TreeNode nodeK = find(root, parentMap, k);
+    public int findClosestLeaf(final TreeNode root, final int k) {
+        final HashMap<TreeNode, TreeNode> parentMap = new HashMap<>();
+        final TreeNode nodeK = find(root, parentMap, k);
         return closestLeaf(nodeK, parentMap);
     }
-
-    private TreeNode find(TreeNode node, Map<TreeNode, TreeNode> parentMap, int k) {
+    
+    /**
+     * DFS
+     * @param node
+     * @param parentMap
+     * @param k
+     * @return
+     */
+    private TreeNode find(final TreeNode node, final Map<TreeNode, TreeNode> parentMap, final int k) {
         if (node.val == k) {
             return node;
         }
         if (node.left != null) {
             parentMap.put(node.left, node);
-            TreeNode nodeK = find(node.left, parentMap, k);
+            final TreeNode nodeK = find(node.left, parentMap, k);
             if (nodeK != null) {
                 return nodeK;
             }
         }
         if (node.right != null) {
             parentMap.put(node.right, node);
-            TreeNode nodeK = find(node.right, parentMap, k);
+            final TreeNode nodeK = find(node.right, parentMap, k);
             if (nodeK != null) {
                 return nodeK;
             }
@@ -118,14 +125,20 @@ public class ClosestLeafBinaryTree {
         throw new IllegalArgumentException("int k=" + k + " is not found in the tree");
     }
     
-    private int closestLeaf(TreeNode node, Map<TreeNode, TreeNode> parentMap) {
-        Queue<TreeNode> queue = new LinkedList<>();
-        HashSet<TreeNode> visited = new HashSet<>();
+    /**
+     * BFS
+     * @param node
+     * @param parentMap
+     * @return
+     */
+    private int closestLeaf(final TreeNode node, final Map<TreeNode, TreeNode> parentMap) {
+        final Queue<TreeNode> queue = new LinkedList<>();
+        final HashSet<TreeNode> visited = new HashSet<>();
         queue.add(node);
         
         
         while(!queue.isEmpty()) {
-            TreeNode temp = queue.poll();
+            final TreeNode temp = queue.poll();
             if (!visited.contains(temp)) {
                 if (temp.left == null && temp.right == null) {
                     return temp.val;
@@ -137,7 +150,7 @@ public class ClosestLeafBinaryTree {
                     if (temp.right != null) {
                         queue.add(temp.right);
                     }
-                    TreeNode parent = parentMap.get(temp);
+                    final TreeNode parent = parentMap.get(temp);
                     if (parent != null) {
                         queue.add(parent);
                     }

@@ -61,7 +61,7 @@ public class FlipBinaryTree {
     
     public List<Integer> flipMatchVoyage(TreeNode root, int[] voyage) {
         ArrayList<Integer> flipped = new ArrayList<>();
-        int[] index = new int[1];
+        int[] index = new int[1];//serve as a global variable
         preorder(root, flipped, voyage, index);
         return flipped;
     }
