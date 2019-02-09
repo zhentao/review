@@ -1,6 +1,8 @@
 package com.zhentao.review.google.high;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <b>843. Guess the Word</b>
@@ -34,20 +36,69 @@ We made 5 calls to master.guess and one of them was the secret, so we pass the t
  *
  */
 public class GuessTheWord {
-    public void findSecretWord(final String[] wordlist, final Master master) {
-        final ThreadLocalRandom rand = ThreadLocalRandom.current();
-         String guess1 = wordlist[rand.nextInt(100)];
-         int match1 = master.guess(guess1);
-        while(match1 == 0) {
-            guess1 = wordlist[rand.nextInt(100)];
-            match1 = master.guess(guess1);
+    public void findSecretWord(String[] wordlist, final Master master) {
+        for (int i = 0; i < 10; ++i) {
+            //It holds the count that the word has zero matches with other words. 
+            final HashMap<String, Integer> count = new HashMap<>();
+            for (final String w1 : wordlist) {
+                for (final String w2 : wordlist) {
+                    if (match(w1, w2) == 0) {
+                        count.put(w1, count.getOrDefault(w1, 0) + 1);
+                    }
+                }
+            }
+            String leastUnmatchedWord = null;//The word which matches others most
+            int leastUnmatchedCount = Integer.MAX_VALUE;
+            for (final String w : wordlist) {
+                final int unmatchedCount = count.getOrDefault(w, 0);
+                if (unmatchedCount < leastUnmatchedCount) {
+                    leastUnmatchedWord = w;
+                    leastUnmatchedCount = unmatchedCount;
+                }
+            }
+            final int x = master.guess(leastUnmatchedWord);
+            if (x == 6) {//found
+                return;
+            }
+            final List<String> wordlist2 = new ArrayList<>();
+            for (final String w : wordlist) {
+                if (match(leastUnmatchedWord, w) == x && !w.equals(leastUnmatchedWord)) {//add words which have same match to the guess word to the new list
+                    wordlist2.add(w);
+                }
+            }
+            //reduce the word list
+            wordlist = wordlist2.toArray(new String[0]);
         }
-        final String guess2 = wordlist[75];
-        final int match2 = master.guess(guess2);
-        return;
+    }
+
+    public int match(final String a, final String b) {
+        int matches = 0;
+        for (int i = 0; i < a.length(); ++i) {
+            if (a.charAt(i) == b.charAt(i)) {
+                matches++;
+            }
+        }
+        return matches;
     }
 }
 
-interface Master {
-    public int guess(String word);
+/**
+ * master.guess("aaaaaa") returns -1, because "aaaaaa" is not in wordlist.
+ * master.guess("acckzz") returns 6, because "acckzz" is secret and has all 6
+ * matches. master.guess("ccbazz") returns 3, because "ccbazz" has 3 matches.
+ * master.guess("eiowzz") returns 2, because "eiowzz" has 2 matches.
+ * master.guess("abcczz") returns 4, because "abcczz" has 4 matches.
+ * 
+ * @author zhentao
+ *
+ */
+class Master {
+    int guess(final String word) {
+        switch (word) {
+        case "aaaaaa":
+            return 1;
+
+        }
+        return 0;
+    }
 }

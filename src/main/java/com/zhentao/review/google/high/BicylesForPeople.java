@@ -59,12 +59,12 @@ public class BicylesForPeople {
         final PriorityQueue<Pair> queue = new PriorityQueue<>((a, b) -> a.distance - b.distance);
         for (final Point p : people) {
             for (final Point b : bicycles) {
-                final int distance = distance(p,b, input);
+                final int distance = distance(p, b, input);
                 queue.add(new Pair(p, b, distance));
             }
         }
         final ArrayList<Pair> list = new ArrayList<>();
-        while (!queue.isEmpty()) {
+        while (!people.isEmpty() && !queue.isEmpty()) {
             final Pair pair = queue.poll();
             if (people.contains(pair.person) && bicycles.contains(pair.bike)) {
                 list.add(pair);
@@ -74,9 +74,10 @@ public class BicylesForPeople {
         }
         return list;
     }
+
     /**
-     * update this method for cases with obstacles 
-     * use BFS to calculate distance
+     * update this method for cases with obstacles use BFS to calculate distance
+     * 
      * @param p1
      * @param p2
      * @param input
@@ -99,8 +100,9 @@ class Pair {
     }
 
     /**
-     * if there are obstacles, use this constructor.
-     * use BFS to calculate distance first
+     * if there are obstacles, use this constructor. use BFS to calculate distance
+     * first
+     * 
      * @param person
      * @param bike
      * @param distance
@@ -110,6 +112,7 @@ class Pair {
         this.bike = bike;
         this.distance = distance;
     }
+
     @Override
     public String toString() {
         return "person: " + person + " bike: " + bike + " distance: " + distance;

@@ -51,13 +51,14 @@ public class CarFleet {
         if (length == 0) {
             return 0;
         }
+        
         final Car[] list = new Car[length];
-        int count = 1;
-
         for (int i = 0; i < length; i++) {
             list[i] = new Car(position[i], speed[i], target);
         }
         Arrays.sort(list);
+        
+        int count = 1;
         double maxTravelTime = list[length - 1].travelTime;
         for (int i = length - 2; i >= 0; i--) {
             if (list[i].travelTime > maxTravelTime) {

@@ -10,6 +10,12 @@
       <artifactId>guava</artifactId>
       <version>27.0.1-jre</version>
     </dependency>
+    <!-- for Pair class -->
+    <!-- <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>11-ea+19</version>
+    </dependency> -->
     <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-library</artifactId>

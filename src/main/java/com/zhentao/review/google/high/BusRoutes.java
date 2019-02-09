@@ -95,7 +95,7 @@ class Bus {
 
     void link(final Bus other) {
         for (final Integer route : other.routes) {
-            if (routes.contains(route)) {
+            if (contains(route)) {
                 neighbors.add(other);
                 other.neighbors.add(this);
                 return;

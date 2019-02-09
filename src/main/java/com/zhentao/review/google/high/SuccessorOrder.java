@@ -33,26 +33,29 @@ import java.util.List;
 public class SuccessorOrder {
     HashMap<String, Family> map = new HashMap<>();
     HashSet<String> dead = new HashSet<>();
+
     public SuccessorOrder() {
         map.put("king", new Family("king"));
     }
 
-    void birth(final String parent, final String name) {
+    public void birth(final String parent, final String name) {
         if (!map.containsKey(parent)) {
             throw new IllegalArgumentException("Parent " + parent + " doesn't exist");
-        } 
+        }
         map.get(parent).sons.add(name);
+        map.put(name, new Family(name));
     }
 
-    void death(final String name) {
+    public void death(final String name) {
         dead.add(name);
     }
 
-    List<String> getOrder() {
+    public List<String> getOrder() {
         final List<String> order = new ArrayList<>();
         dfs("king", order);
         return order;
     }
+
     private void dfs(final String current, final List<String> list) {
         if (!dead.contains(current)) {
             list.add(current);
@@ -61,21 +64,14 @@ public class SuccessorOrder {
             dfs(son, list);
         }
     }
-    class ListNode {
-        String name;
-        ListNode next;
-        ListNode prev;
-    }
 
     class Family {
         String parent;
         ArrayDeque<String> sons;
-        ListNode parentNode;
-        ListNode youngestSon;
         String name;
-        
+
         Family(final String parent) {
-            this.parent = parent;
+            this.name = parent;
             sons = new ArrayDeque<>();
         }
     }

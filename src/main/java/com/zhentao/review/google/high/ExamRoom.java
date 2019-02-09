@@ -105,12 +105,13 @@ public class ExamRoom {
 class ExamRoom2 {
     private final ListNode head;
     private final ListNode tail;
+    //seat # to Node
     private final HashMap<Integer, ListNode> map;
     int capacity;
     int size;
     public ExamRoom2(final int n) {
-        head = new ListNode();
-        tail = new ListNode();
+        head = new ListNode(-1);
+        tail = new ListNode(-1);
         head.next = tail;
         tail.prev = head;
         map = new HashMap<>();
@@ -134,7 +135,7 @@ class ExamRoom2 {
             ListNode curr = head.next;
             
             while(curr != tail) {
-                if (prev.number != null) {
+                if (prev != head) {
                     final int d = (curr.number - prev.number) / 2;
                     if (d > dist) {
                         student = prev.number + d;
@@ -174,13 +175,11 @@ class ExamRoom2 {
     }
     
     static class ListNode {
-        Integer number;
+        final int number;
         ListNode prev;
         ListNode next;
         ListNode(final int number) {
             this.number = number;
-        }
-        ListNode() {
         }
         
         @Override

@@ -61,15 +61,15 @@ public class ExpiringCache<K, V> {
 
     static class Value<V> {
         V val;
-        long timestampInMillis;
+        long expiredTimeInMillis;
 
         Value(final V val, final long duration) {
             this.val = val;
-            timestampInMillis = System.currentTimeMillis() + duration;
+            expiredTimeInMillis = System.currentTimeMillis() + duration;
         }
 
         boolean isExpired() {
-            return System.currentTimeMillis() - timestampInMillis >= 0;
+            return System.currentTimeMillis() - expiredTimeInMillis >= 0;
         }
     }
 }
