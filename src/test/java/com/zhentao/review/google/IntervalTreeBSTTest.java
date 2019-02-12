@@ -3,8 +3,8 @@ package com.zhentao.review.google;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -20,18 +20,18 @@ public class IntervalTreeBSTTest {
         }
         assertThat(intervalTree.overlapSearch(new Interval(18, 20)), is(new Interval(15, 20)));
 
-        assertThat(intervalTree.overlapSearchAll(new Interval(18, 20)), is(Arrays.asList(new Interval(5, 20),
+        assertThat(intervalTree.overlapSearchAll(new Interval(18, 20)), is(List.of(new Interval(5, 20),
                 new Interval(10, 30), new Interval(15, 20), new Interval(15, 22), new Interval(17, 19))));
 
         assertThat(intervalTree.overlapSearchAll(new Interval(2, 4)), is(Collections.emptyList()));
-        
-        assertThat(intervalTree.search(18), is(Arrays.asList(new Interval(5, 20), new Interval(10, 30),
+
+        assertThat(intervalTree.search(18), is(List.of(new Interval(5, 20), new Interval(10, 30),
                 new Interval(15, 20), new Interval(15, 22), new Interval(17, 19))));
-        
-        assertThat(intervalTree.search(35), is(Arrays.asList(new Interval(30, 40))));
-        
+
+        assertThat(intervalTree.search(35), is(List.of(new Interval(30, 40))));
+
         assertThat(intervalTree.search(42), is(Collections.emptyList()));
-        
-        assertThat(intervalTree.search(20), is(Arrays.asList(new Interval(5,20), new Interval(10,30), new Interval(15,20), new Interval(15,22))));
+
+        assertThat(intervalTree.search(20), is(List.of(new Interval(5,20), new Interval(10,30), new Interval(15,20), new Interval(15,22))));
     }
 }

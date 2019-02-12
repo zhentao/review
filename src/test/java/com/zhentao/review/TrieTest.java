@@ -3,7 +3,7 @@ package com.zhentao.review;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -15,6 +15,6 @@ public class TrieTest {
         trie.insert("add");
         trie.insert("bee");
         assertThat(trie.search("apple"), is(true));
-        assertThat(trie.autoComplete("a"), is(Arrays.asList("apple", "add")));
+        assertThat(trie.autoComplete("a"), is(List.of("apple", "add")));
     }
 }

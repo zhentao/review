@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -24,7 +25,7 @@ public class TreeNodeTest {
         n4.left = n5;
         n5.left = n6;
         n6.right = n7;
-        assertThat(TreeNode.preorderWithStack(n1), is(Arrays.asList(n1, n2, n4, n5, n6, n7, n3)));
+        assertThat(TreeNode.preorderWithStack(n1), is(List.of(n1, n2, n4, n5, n6, n7, n3)));
     }
 
     @Test
@@ -44,11 +45,11 @@ public class TreeNodeTest {
         n5.left = n6;
         n6.right = n7;
 
-        assertThat(TreeNode.inorder(n1), is(Arrays.asList(n6.val, n7.val, n5.val, n4.val, n2.val, n1.val, n3.val)));
+        assertThat(TreeNode.inorder(n1), is(List.of(n6.val, n7.val, n5.val, n4.val, n2.val, n1.val, n3.val)));
         assertThat(TreeNode.inorderIterative(n1),
                 is(Arrays.asList(n6.val, n7.val, n5.val, n4.val, n2.val, n1.val, n3.val)));
     }
-    
+
     @Test
     public void testPostOrder() {
         final TreeNode n1 = new TreeNode(1);
@@ -65,9 +66,9 @@ public class TreeNodeTest {
         n4.left = n5;
         n5.left = n6;
         n6.right = n7;
-        assertThat(TreeNode.postOrder(n1), is(Arrays.asList(n7, n6, n5, n4, n2, n3, n1)));
-        //assertThat(TreeNode.postOrderStack(n1), is(Arrays.asList(n7, n6, n5, n4, n2, n3, n1)));
-        
-        assertThat(TreeNode.postorderTraversal(n1), is(Arrays.asList(n7, n6, n5, n4, n2, n3, n1)));
+        assertThat(TreeNode.postOrder(n1), is(List.of(n7, n6, n5, n4, n2, n3, n1)));
+        //assertThat(TreeNode.postOrderStack(n1), is(List.of(n7, n6, n5, n4, n2, n3, n1)));
+
+        assertThat(TreeNode.postorderTraversal(n1), is(List.of(n7, n6, n5, n4, n2, n3, n1)));
     }
 }
