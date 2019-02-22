@@ -4,81 +4,86 @@ import java.util.Stack;
 
 /**
  * <pre>
- * [Google] Design Text Editor (Doubly Linked List) 
-Build a text editor class with the following functions, 
+ * [Google] Design Text Editor (Doubly Linked List)
+Build a text editor class with the following functions,
 
-moveCursorLeft(), 
+moveCursorLeft(),
 
-moveCursorRight(), 
+moveCursorRight(),
 
-insertCharacter(char) //insert the char right before cursor 
+insertCharacter(char) //insert the char right before cursor
 
-backspace() //delete the char right before cursor 
+backspace() //delete the char right before cursor
 
-Follow-up 
-Implement undo() //undo the last edit. Can be called multiple times until all edits are cancelled. 
+Follow-up
+Implement undo() //undo the last edit. Can be called multiple times until all edits are cancelled.
 
-All functions above should take O(1) time. 
+All functions above should take O(1) time.
 
-Example 
+Example
 
-( '|' denotes where the cursor locates. 'text' shows what's been written to the text editor. ) 
+( '|' denotes where the cursor locates. 'text' shows what's been written to the text editor. )
 
-Start with empty text 
-text = "|" 
+Start with empty text
+text = "|"
 
-insertCharacter('a') 
-text = "a|" 
-
-insertCharacter('b') 
-text = "ab|" 
-
-insertCharacter('c') 
-text = "abc|" 
-
-moveCursorLeft() 
-text = "ab|c" 
-
-moveCursorLeft() 
-text = "a|bc" 
-
-backspace() 
-text = "|bc" 
-
-moveCursorLeft() 
-text = "|bc" (nothing happens since cursor was on the leftmost position) 
-
-undo() 
-text = "a|bc" 
-
-undo() 
-text = "ab|c" 
-
-undo() 
-text = "abc|" 
-
-undo() 
-text = "ab|" 
-
-undo() 
+insertCharacter('a')
 text = "a|"
- * 
- * 
+
+insertCharacter('b')
+text = "ab|"
+
+insertCharacter('c')
+text = "abc|"
+
+moveCursorLeft()
+text = "ab|c"
+
+moveCursorLeft()
+text = "a|bc"
+
+backspace()
+text = "|bc"
+
+moveCursorLeft()
+text = "|bc" (nothing happens since cursor was on the leftmost position)
+
+undo()
+text = "a|bc"
+
+undo()
+text = "ab|c"
+
+undo()
+text = "abc|"
+
+undo()
+text = "ab|"
+
+undo()
+text = "a|"
+ *
+ *
  * </pre>
- * 
+ *
  * @author
  *
  */
 public class TextEditor {
-    private final StringBuilder text;
+    private static final char EMPTY_CHAR = '\0';
+    private final ListNode head;
+    private final ListNode tail;
     // store undo edits.
     private final Stack<UndoEdit> undoEdits;
-    private int cursorIndex;
+    private ListNode cursor;
 
     public TextEditor() {
-        this.text = new StringBuilder();
+        head = new ListNode();
+        tail = new ListNode();
+        head.next = tail;
+        tail.prev = head;
         undoEdits = new Stack<>();
-        cursorIndex = 0;
+        cursor = tail;
     }
 
     public boolean moveCursorLeft() {
@@ -86,11 +91,11 @@ public class TextEditor {
     }
 
     private boolean moveCursorLeft(final Undo undo) {
-        if (cursorIndex == 0) {
+        if (cursor.prev == head) {
             return false;
         }
 
-        cursorIndex--;
+        cursor = cursor.prev;
         undo.add(new UndoEdit(UndoEdit.Operation.MOVE_CURSOR_RIGHT), this);
         return true;
     }
@@ -100,11 +105,11 @@ public class TextEditor {
     }
 
     private boolean moveCursorRight(final Undo undo) {
-        if (cursorIndex == text.length()) {
+        if (cursor.next == null) {
             return false;
         }
 
-        cursorIndex++;
+        cursor = cursor.next;
         undo.add(new UndoEdit(UndoEdit.Operation.MOVE_CURSOR_LEFT), this);
         return true;
     }
@@ -114,8 +119,13 @@ public class TextEditor {
     }
 
     private boolean insertCharacter(final char ch, final Undo undo) {
-        text.insert(cursorIndex, ch);
-        cursorIndex++;
+
+        final ListNode node = new ListNode(ch);
+        node.prev = cursor.prev;
+        node.next = cursor;
+        cursor.prev.next = node;
+        cursor.prev = node;
+
         undo.add(new UndoEdit(UndoEdit.Operation.BACKSPACE), this);
         return true;
     }
@@ -125,14 +135,17 @@ public class TextEditor {
     }
 
     private boolean backspace(final Undo undo) {
-        if (cursorIndex == 0) {
+        if (cursor.prev == head) {
             return false;
         }
-
-        cursorIndex--;
-        final char ch = text.charAt(cursorIndex);
+        final char ch = cursor.prev.ch;
         undo.add(new UndoEdit(UndoEdit.Operation.INSERT_CHARACTER, ch), this);
-        text.deleteCharAt(cursorIndex);
+
+        final ListNode deleted = cursor.prev;
+        deleted.prev.next = cursor;
+        cursor.prev = deleted.prev;
+        deleted.prev = null;
+        deleted.next = null;
         return true;
     }
 
@@ -149,13 +162,24 @@ public class TextEditor {
     }
 
     // for unit test/debug
-    int cursor() {
-        return cursorIndex;
+    ListNode cursor() {
+        return cursor;
     }
 
     @Override
     public String toString() {
-        return new StringBuilder(text).insert(cursorIndex, "|").toString();
+        final StringBuilder builder = new StringBuilder();
+        ListNode node = head.next;
+        while (node != null) {
+            if (node == cursor) {
+                builder.append("|");
+            }
+            if (node != tail) {
+                builder.append(node.ch);
+            }
+            node = node.next;
+        }
+        return builder.toString();
     }
 
     enum Undo {
@@ -169,7 +193,7 @@ public class TextEditor {
 
         /**
          * Default implementation for doing nothing
-         * 
+         *
          * @param edit
          * @param textEditor
          */
@@ -182,7 +206,7 @@ public class TextEditor {
      * Helper class to encapsulate undo operation and character.
      */
     private static class UndoEdit {
-        private static final char EMPTY_CHAR = '\0';
+
         private final Operation operation;
         private final char ch;
 
@@ -232,6 +256,26 @@ public class TextEditor {
             };
 
             public abstract boolean apply(char ch, TextEditor editor);
+        }
+    }
+
+    static class ListNode {
+        char ch;
+        ListNode prev;
+        ListNode next;
+
+        ListNode() {
+            ch = EMPTY_CHAR;
+        }
+
+        ListNode(final char ch) {
+            this.ch = ch;
+        }
+
+        @Override
+        public boolean equals(final Object o) {
+            final ListNode that = (ListNode) o;
+            return ch == that.ch;
         }
     }
 }
