@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * <b>248. Strobogrammatic Number III</b>
- * 
+ *
  * <pre>
  * A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).
 
@@ -17,12 +17,12 @@ Write a function to count the total strobogrammatic numbers that exist in the ra
 Example:
 
 Input: low = "50", high = "100"
-Output: 3 
+Output: 3
 Explanation: 69, 88, and 96 are three strobogrammatic numbers.
 Note:
 Because the range might be a large number, the low and high numbers are represented as string.
  * </pre>
- * 
+ *
  * @author zhentao
  *
  */
@@ -54,7 +54,7 @@ public class StrobogrammaticNumberIII {
             }
         };
 
-        final HashSet<Character> set = new HashSet<>() {
+        final HashSet<Character> set = new HashSet<Character>() {
             private static final long serialVersionUID = 1L;
 
             {
