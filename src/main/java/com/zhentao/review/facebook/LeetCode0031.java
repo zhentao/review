@@ -14,14 +14,18 @@ import java.util.Arrays;
  * Here are some examples. Inputs are in the left-hand column and its
  * corresponding outputs are in the right-hand column.
  *
- * 1,2,3 → 1,3,2 3,2,1 → 1,2,3 1,1,5 → 1,5,1
+ * <pre>
+ * 1,2,3 → 1,3,2
+ * 3,2,1 → 1,2,3
+ * 1,1,5 → 1,5,1
+ * </pre>
  *
  * @author zhentao.li
  *
  */
 public class LeetCode0031 {
     public static void main(String[] args) {
-        int[] nums = {1,3,2};
+        int[] nums = { 1, 2, 5,4,3,2 };
         new LeetCode0031().nextPermutation(nums);
         System.out.println(Arrays.toString(nums));
     }
@@ -29,16 +33,16 @@ public class LeetCode0031 {
     public void nextPermutation(int[] nums) {
         int i = nums.length - 2;
         while (i >= 0) {
-            if (nums[i+1] <= nums[i]) {
+            if (nums[i] >= nums[i+1]) {
                 i--;
             } else {
                 break;
             }
         }
 
-        if (i >=0) {
-            int j = nums.length-1;
-            while(j > 0) {
+        if (i >= 0) {
+            int j = nums.length - 1;
+            while (j > 0) {
                 if (nums[i] < nums[j]) {
                     swap(nums, i, j);
                     break;
@@ -47,7 +51,7 @@ public class LeetCode0031 {
                 }
             }
         }
-        reverse(nums, i+1, nums.length-1);
+        reverse(nums, i + 1, nums.length - 1);
     }
 
     private void swap(int[] nums, int i, int j) {
@@ -57,7 +61,7 @@ public class LeetCode0031 {
     }
 
     private void reverse(int[] nums, int start, int end) {
-        while(start < end) {
+        while (start < end) {
             swap(nums, start, end);
             start++;
             end--;

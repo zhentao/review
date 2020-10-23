@@ -27,10 +27,39 @@ import java.util.Arrays;
  */
 public class LeetCode0238 {
     public static void main(String[] args) {
-        int[] nums = { 1, 2, 3, 4, 5 };
+        int[] nums = { 1, 2, 3, 4 };
         LeetCode0238 lc = new LeetCode0238();
-        System.out.println(Arrays.toString(lc.productExceptSelf(nums)));
+        System.out.println(Arrays.toString(lc.productExceptSelf1(nums)));
     }
+
+    public int[] productExceptSelf2(int[] nums) {
+        int[] prefix = new int[nums.length];
+        prefix[0] = 1;
+        for (int i = 1; i < nums.length; i++) {
+            prefix[i] = nums[i-1] * prefix[i-1];
+        }
+
+        int[] suffix = new int[nums.length];
+        suffix[nums.length-1] = 1;
+        for (int i = nums.length - 2; i >= 0; i--) {
+            suffix[i] = suffix[i+1] * nums[i+1];
+        }
+
+        int[] result = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            result[i] = prefix[i]*suffix[i];
+        }
+        return result;
+    }
+
+
+
+
+
+
+
+
+
 
     public int[] productExceptSelf(int[] nums) {
         int length = nums.length;
@@ -51,6 +80,27 @@ public class LeetCode0238 {
 
         for (int i = 0; i < length; i++) {
             answer[i] = left[i] * right[i];
+        }
+
+        return answer;
+    }
+
+    public int[] productExceptSelf1(int[] nums) {
+        int length = nums.length;
+
+        int[] answer = new int[length];
+
+        answer[0] = 1;
+        for (int i = 1; i < length; i++) {
+            answer[i] = answer[i-1] * nums[i-1];
+        }
+
+        int r = 1;
+
+        for (int i = length - 2; i >= 0; i--) {
+            r = r * nums[i+1];
+            answer[i] = answer[i] * r;
+
         }
 
         return answer;

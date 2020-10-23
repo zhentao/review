@@ -34,6 +34,34 @@ public class LeetCode0133 {
         System.out.println(newNode);
     }
 
+    public Node cloneGraph1(Node n) {
+        if (n == null) {
+            return null;
+        }
+        //map from old to new
+        HashMap<Node, Node> map = new HashMap<>();
+        return cloneGraphRec1(n, map);
+    }
+
+    private Node cloneGraphRec1(Node n, Map<Node, Node> map) {
+        if (n == null) {
+            return null;
+        }
+        if (map.containsKey(n)) {
+            return map.get(n);
+        }
+        Node nn = new Node(n.val);
+        map.put(n, nn);
+        for (Node neibour : n.neighbors) {
+            nn.neighbors.add(cloneGraphRec1(neibour, map));
+        }
+        return nn;
+    }
+
+
+
+
+
     public Node cloneGraph(Node node) {
         if (node == null) {
             return null;

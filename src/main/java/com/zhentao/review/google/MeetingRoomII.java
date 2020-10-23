@@ -5,7 +5,7 @@ import java.util.TreeMap;
 
 /**
  * <b>253. Meeting Rooms II</b>
- * 
+ *
  * <pre>
  * Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] (si < ei), find the minimum number of conference rooms required.
 
@@ -13,9 +13,9 @@ For example,
 Given [[0, 30],[5, 10],[15, 20]],
 return 2.
  * </pre>
- * 
- * @author zhentao
  *
+ * @author zhentao
+ * @see facebook/LeetCode1143.java
  */
 public class MeetingRoomII {
     public int minMeetingRoomsWithmap(final int[][] intervals) {
@@ -31,7 +31,7 @@ public class MeetingRoomII {
         }
         return res;
     }
-    
+
     public int minMeetingRooms(final int[][] intervals) {
         final int length = intervals.length;
         final int[] start = new int[length];

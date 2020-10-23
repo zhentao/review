@@ -2,7 +2,7 @@ package com.zhentao.review.google;
 
 /**
  * <b>158. Read N Characters Given Read4 II - Call multiple times</b>
- * 
+ *
  * <pre>
  * The API: int read4(char *buf) reads 4 characters at a time from a file.
 
@@ -13,14 +13,14 @@ By using the read4 API, implement the function int read(char *buf, int n) that r
 Note:
 The read function may be called multiple times.
  * </pre>
- * 
+ *
  * @author zhentao
  *
  */
 public abstract class ReadNByRead4Multiple {
     public abstract int read4(char[] buffer);
 
-    private char[] buf4;;
+    private char[] buf4;
     private int currentIndex;
     private int size;
 

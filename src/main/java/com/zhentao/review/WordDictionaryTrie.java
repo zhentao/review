@@ -2,6 +2,11 @@ package com.zhentao.review;
 
 import java.util.HashMap;
 
+/**
+ * <b>211. Add and Search Word - Data structure design</b>
+ * @author zhentao.li
+ *
+ */
 public class WordDictionaryTrie {
     private TrieNode root;
 

@@ -27,6 +27,7 @@ public class LeetCode0844 {
             while (sEnd >= 0) {
                 if (S.charAt(sEnd) == '#') {
                     sSkip++;
+                    sEnd--;
                 } else if (sSkip > 0) {
                     sSkip--;
                     sEnd--;
@@ -38,6 +39,7 @@ public class LeetCode0844 {
             while (tEnd >= 0) {
                 if (T.charAt(tEnd) == '#') {
                     tSkip++;
+                    tEnd--;
                 } else if (tSkip > 0) {
                     tSkip--;
                     tEnd--;

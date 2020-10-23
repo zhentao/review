@@ -10,7 +10,8 @@ import java.util.HashSet;
 
 void addWord(word)
 bool search(word)
-search(word) can search a literal word or a regular expression string containing only letters a-z or .. A . means it can represent any one letter.
+search(word) can search a literal word or a regular expression string containing only letters a-z or .. A
+. means it can represent any one letter.
 
 Example:
 
@@ -30,11 +31,11 @@ You may assume that all words are consist of lowercase letters a-z
 public class WordDictionary {
     //Key: word length, value a set of word with the same length
     private HashMap<Integer, HashSet<String>> dictionary;
-    
+
     public WordDictionary() {
         dictionary = new HashMap<>();
     }
-    
+
     /** Adds a word into the data structure. */
     public void addWord(String word) {
         int length = word.length();
@@ -46,7 +47,7 @@ public class WordDictionary {
             dictionary.get(length).add(word);
         }
     }
-    
+
     /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
     public boolean search(String word) {
         int length = word.length();
@@ -57,7 +58,7 @@ public class WordDictionary {
         if (set.contains(word)) {
             return true;
         }
-        
+
         for (String dict : set) {
             boolean found = true;
             for (int i = 0; i < length; i++) {

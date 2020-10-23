@@ -43,6 +43,7 @@ public class FindWaysToTarget {
         // int size = a.length;
         int[] dp = new int[sum + 1];
         // base case
+        //when target sum is 0, only 1 way to get it: no coins
         dp[0] = 1;
 
         for (int coin : a) {

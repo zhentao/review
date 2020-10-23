@@ -18,7 +18,7 @@ public class EditDistance {
         System.out.println(calculateTopDown(str1, str2));
         System.out.println(calculateBottomUp(str1, str2));
         System.out.println();
-        
+
         System.out.println(calculateTopDown("a", "bc"));
         System.out.println(calculateBottomUp("a", "bc"));
     }
@@ -36,8 +36,9 @@ public class EditDistance {
         return calculateTopDown(str1, m - 1, str2, n - 1, memo);
     }
 
-    private static int calculateTopDown(final String str1, final int m, final String str2, final int n, final int[][] memo) {
- 
+    private static int calculateTopDown(final String str1, final int m, final String str2, final int n,
+            final int[][] memo) {
+
         if (m < 0)
             return n + 1;
         if (n < 0)
@@ -48,18 +49,16 @@ public class EditDistance {
         }
         if (str1.charAt(m) == str2.charAt(n)) {
             memo[m][n] = calculateTopDown(str1, m - 1, str2, n - 1, memo);
-            return memo[m][n];
+
+        } else {
+            final int delete = calculateTopDown(str1, m - 1, str2, n, memo);
+            final int insert = calculateTopDown(str1, m, str2, n - 1, memo);
+            final int replace = calculateTopDown(str1, m - 1, str2, n - 1, memo);
+            memo[m][n] = 1 + min(delete, insert, replace);
         }
-        final int delete = calculateTopDown(str1, m - 1, str2, n, memo);
-        final int insert = calculateTopDown(str1, m, str2, n - 1, memo);
-        final int replace = calculateTopDown(str1, m - 1, str2, n - 1, memo);
-        memo[m][n] = 1 + min(delete, insert, replace);
         return memo[m][n];
     }
 
-    
-    
-    
     public static int calculateBottomUp(final String str1, final String str2) {
         final int m = str1.length();
         final int n = str2.length();
@@ -75,8 +74,8 @@ public class EditDistance {
                 if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
                     dp[i][j] = dp[i - 1][j - 1];
                 } else {
-                    final int delete = dp[i - 1][j];
-                    final int insert = dp[i][j - 1];
+                    final int delete = dp[i - 1][j];// delete from str2: keep i-1 and move to j
+                    final int insert = dp[i][j - 1];// insert into str2: move from i - 1 to i, and keep j-1
                     final int replace = dp[i - 1][j - 1];
                     dp[i][j] = 1 + min(delete, replace, insert);
                 }

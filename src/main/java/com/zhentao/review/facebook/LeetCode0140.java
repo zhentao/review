@@ -55,38 +55,58 @@ Output:
 public class LeetCode0140 {
     public static void main(String[] args) {
         LeetCode0140 wb = new LeetCode0140();
-        List<String> wordDict = Arrays.asList("cat", "cats", "and", "sand", "dog");
-        System.out.println(wb.wordBreak("catsanddog", wordDict));
+        List<String> wordDict = Arrays.asList("apple", "pen", "applepen", "pine", "pineapple");
+        System.out.println(wb.wordBreak1("pineapplepenapple", wordDict));
     }
+
+    /**
+     * only return the first 1.
+     * @param s
+     * @param wordDict
+     * @return
+     */
+    public List<String> wordBreak1(String s, List<String> wordDict) {
+        Map<String, List<String>> map = new HashMap<>();
+        return wordBreak1(s, wordDict, map);
+    }
+
+    private List<String> wordBreak1(String s, List<String> wordDict, Map<String, List<String>> map) {
+        if (map.containsKey(s)) {
+            return map.get(s);
+        }
+
+        List<String> res = new ArrayList<>();
+        for (String word : wordDict) {
+            if (s.startsWith(word)) {
+                if (s.equals(word)) {
+                    res.add(word);
+                } else {
+                    List<String> subList = wordBreak1(s.substring(word.length()), wordDict, map);
+
+                    for (String sub : subList) {
+                        res.add(word + " " + sub);
+                        return res;
+                    }
+                }
+            }
+        }
+        map.put(s, res);
+        return res;
+    }
+
+
+
+
+
+
 
     public List<String> wordBreak(String s, List<String> wordDict) {
         Map<String, List<String>> memo = new HashMap<>();
         return wordBreak(s, wordDict, memo);
     }
 
-    private List<String> wordBreak(String s, List<String> wordDict, Map<String, List<String>> memo) {
-        if (memo.containsKey(s))
-            return memo.get(s);
 
-        List<String> res = new ArrayList<>();
-
-        for (String word : wordDict) {
-            if (s.startsWith(word)) {
-                if (s.length() == word.length())
-                    res.add(word);
-                else {
-                    List<String> sub = wordBreak(s.substring(word.length()), wordDict, memo);
-                    for (String w : sub)
-                        res.add(word + " " + w);
-                }
-            }
-        }
-
-        memo.put(s, res);
-        return memo.get(s);
-    }
-
-    private List<String> myBreak(String s, List<String> dict, Map<String, List<String>> memo) {
+    private List<String> wordBreak(String s, List<String> dict, Map<String, List<String>> memo) {
         if (memo.containsKey(s) ) {
             return memo.get(s);
         }
@@ -98,7 +118,7 @@ public class LeetCode0140 {
                 if (s.length() == word.length()) {
                     result.add(word);
                 } else {
-                    List<String> subs = myBreak(s.substring(word.length()), dict, memo);
+                    List<String> subs = wordBreak(s.substring(word.length()), dict, memo);
                     for (String sub : subs) {
                         result.add(word + " " + sub);
                     }

@@ -77,7 +77,7 @@ public class MostStonesRemoved {
     /**
      * This is solved by DFS.
      * 
-     * @see com.zhentao.review.google.NumberOfIslands#NumberOfIslands()
+     * @see com.zhentao.review.facebook.LeetCode0200#NumberOfIslands()
      * @param stones
      * @return
      */
